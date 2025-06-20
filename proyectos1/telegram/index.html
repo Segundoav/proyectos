@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Un regalo para ti</title>
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Vista previa para Telegram -->
+  <meta property="og:title" content="Un regalo para ti 🎁" />
+  <meta property="og:description" content="Haz clic para abrir esta caja y ver una flor mágica 🌸" />
+  <meta property="og:image" content="https://segundoav.github.io/proyectos/proyectos1/florvirtual/images/rosa.jpg" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://segundoav.github.io/proyectos/proyectos1/florvirtual/" />
+</head>
+<body>
+  <div class="container">
+    <div class="gift" id="giftBox" onclick="openGift()">🎁</div>
+
+    <div class="message" id="message">
+      <div class="flower">
+        <!-- 8 pétalos en forma de corazón -->
+        <div class="petal" style="--i:0;"></div>
+        <div class="petal" style="--i:1;"></div>
+        <div class="petal" style="--i:2;"></div>
+        <div class="petal" style="--i:3;"></div>
+        <div class="petal" style="--i:4;"></div>
+        <div class="petal" style="--i:5;"></div>
+        <div class="petal" style="--i:6;"></div>
+        <div class="petal" style="--i:7;"></div>
+        <div class="center"></div>
+      </div>
+      <p>Para ti, porque tu belleza florece con luz propia.</p>
+      <p class="ruso">Для тебя, потому что твоя красота светится изнутри.</p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
