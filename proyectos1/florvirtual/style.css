@@ -1,0 +1,91 @@
+body {
+  background: linear-gradient(to right, #fdeff9, #ec38bc, #7303c0);
+  background-size: 200% 200%;
+  animation: gradient 10s ease infinite;
+  font-family: 'Segoe UI', sans-serif;
+  text-align: center;
+  padding: 0;
+  margin: 0;
+  color: #fff;
+}
+
+.container {
+  margin-top: 100px;
+}
+
+.gift {
+  font-size: 80px;
+  cursor: pointer;
+  transition: transform 0.4s;
+}
+
+.gift:hover {
+  transform: scale(1.2);
+}
+
+.message {
+  display: none;
+  margin-top: 50px;
+  animation: fadeIn 2s ease-in-out;
+}
+
+.flower {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  margin: 0 auto 20px;
+  animation: bloom 2s ease-in-out;
+}
+
+.petal {
+  width: 60px;
+  height: 60px;
+  background: pink;
+  border-radius: 50%;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  transform-origin: center;
+}
+
+.petal1 { transform: rotate(0deg) translateY(-40px); }
+.petal2 { transform: rotate(90deg) translateY(-40px); }
+.petal3 { transform: rotate(180deg) translateY(-40px); }
+.petal4 { transform: rotate(270deg) translateY(-40px); }
+
+.center {
+  width: 30px;
+  height: 30px;
+  background: gold;
+  border-radius: 50%;
+  position: absolute;
+  top: 35px;
+  left: 35px;
+  box-shadow: 0 0 15px #fff;
+}
+
+p {
+  font-size: 20px;
+}
+
+.ruso {
+  font-style: italic;
+  font-size: 18px;
+  color: #ffddee;
+}
+
+@keyframes bloom {
+  from { transform: scale(0); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
