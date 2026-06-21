@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Elite Inmobiliaria — Catálogo de Venta y Asistente Virtual</title>
+<style>
+  :root{
+    --ink:#1E2A4A;
+    --brass:#B8923D;
+    --paper:#F7F5F0;
+    --charcoal:#22221F;
+    --line:#D8D2C4;
+    --green-ok:#3F6B52;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{
+    background:var(--paper);
+    color:var(--charcoal);
+    font-family:'Helvetica Neue', Arial, sans-serif;
+    line-height:1.5;
+  }
+  h1,h2,h3{
+    font-family:Georgia, 'Times New Roman', serif;
+    font-weight:700;
+    letter-spacing:-0.01em;
+  }
+  .mono{
+    font-family:'Courier New', monospace;
+    letter-spacing:0.02em;
+    text-transform:uppercase;
+    font-size:11px;
+  }
+
+  /* NAV */
+  nav{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:22px 64px;
+    background:var(--ink);
+    color:var(--paper);
+  }
+  .logo{display:flex;align-items:center;gap:10px;font-size:19px;font-weight:700;font-family:Georgia,serif;}
+  .logo span{color:var(--brass);}
+  .navlinks{display:flex;gap:34px;font-size:14px;}
+  .navlinks a{color:var(--paper);text-decoration:none;opacity:.85;}
+  .navlinks a:hover{opacity:1;}
+
+  /* HERO */
+  .hero{
+    position:relative;
+    padding:90px 64px 70px;
+    background:
+      linear-gradient(var(--ink), var(--ink)) ,
+      repeating-linear-gradient(0deg, rgba(247,245,240,.06) 0 1px, transparent 1px 48px),
+      repeating-linear-gradient(90deg, rgba(247,245,240,.06) 0 1px, transparent 1px 48px);
+    color:var(--paper);
+    overflow:hidden;
+  }
+  .hero-eyebrow{
+    font-family:'Courier New', monospace;
+    color:var(--brass);
+    font-size:12px;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    margin-bottom:18px;
+  }
+  .hero h1{
+    font-size:52px;
+    max-width:680px;
+    margin-bottom:18px;
+  }
+  .hero p{
+    max-width:480px;
+    font-size:16px;
+    opacity:.85;
+    margin-bottom:34px;
+  }
+  .hero-actions{display:flex;gap:16px;}
+  .btn{
+    display:inline-block;
+    padding:14px 28px;
+    font-size:14px;
+    font-weight:600;
+    border-radius:2px;
+    text-decoration:none;
+    cursor:pointer;
+    border:1px solid transparent;
+  }
+  .btn-primary{background:var(--brass);color:var(--ink);}
+  .btn-ghost{border:1px solid rgba(247,245,240,.4);color:var(--paper);}
+
+  .hero-specs{
+    display:flex;gap:48px;margin-top:56px;padding-top:28px;
+    border-top:1px solid rgba(247,245,240,.2);
+    max-width:680px;
+  }
+  .hero-specs div .num{font-family:Georgia,serif;font-size:28px;color:var(--brass);}
+  .hero-specs div .lbl{font-family:'Courier New',monospace;font-size:11px;text-transform:uppercase;opacity:.7;margin-top:4px;}
+
+  /* SECTION HEADER */
+  .section{padding:72px 64px;}
+  .section-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:40px;border-bottom:1px solid var(--line);padding-bottom:20px;}
+  .section-head .mono{color:var(--brass);margin-bottom:8px;display:block;}
+  .section-head h2{font-size:30px;}
+
+  /* CATALOGO */
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;}
+  .card{
+    border:1px solid var(--line);
+    background:#fff;
+  }
+  
+  /* CORRECCIÓN AQUÍ: Se limpió el fondo antiguo para dar espacio a la etiqueta img */
+  .card-img{
+    height:200px;
+    position:relative;
+    overflow:hidden; 
+    background:#EFEBE0;
+  }
+  
+  /* Se añadieron propiedades para que las imágenes reales se adapten perfectamente */
+  .card-img img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+  }
+
+  .tag{
+    position:absolute;top:12px;left:12px;
+    background:var(--green-ok);color:#fff;
+    font-family:'Courier New',monospace;font-size:10px;text-transform:uppercase;
+    padding:4px 8px;
+    z-index:10; /* Asegura que la etiqueta quede por encima de la foto */
+  }
+  .card-body{padding:18px 18px 22px;}
+  .card-body h3{font-size:18px;margin-bottom:4px;}
+  .card-loc{font-size:13px;color:#666;margin-bottom:14px;}
+  .card-specs{display:flex;gap:16px;margin-bottom:16px;}
+  .card-specs span{font-family:'Courier New',monospace;font-size:11px;color:#555;}
+  .card-price{
+    display:flex;justify-content:space-between;align-items:center;
+    border-top:1px solid var(--line);padding-top:14px;
+  }
+  .card-price .price{font-family:Georgia,serif;font-size:20px;color:var(--ink);font-weight:700;}
+  .card-price a{font-size:13px;color:var(--brass);text-decoration:none;font-weight:600;}
+
+  .filters{display:flex;gap:12px;margin-bottom:32px;}
+  .filters select, .filters input{
+    border:1px solid var(--line);padding:10px 14px;font-size:13px;background:#fff;font-family:inherit;
+  }
+
+  /* TESTIMONIOS */
+  .testi-wrap{background:var(--ink);}
+  .testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;}
+  .testi{padding:36px;border-right:1px solid rgba(247,245,240,.15);color:var(--paper);}
+  .testi:last-child{border-right:none;}
+  .testi .stars{color:var(--brass);font-size:14px;margin-bottom:14px;letter-spacing:2px;}
+  .testi p.quote{font-size:14.5px;opacity:.9;margin-bottom:18px;}
+  .testi .who{font-family:'Courier New',monospace;font-size:11px;text-transform:uppercase;opacity:.6;}
+
+  /* CONTACTO */
+  .contact-wrap{display:grid;grid-template-columns:1fr 1fr;gap:56px;}
+  .form-row{margin-bottom:18px;}
+  .form-row label{display:block;font-family:'Courier New',monospace;font-size:11px;text-transform:uppercase;margin-bottom:6px;color:#555;}
+  .form-row input, .form-row textarea, .form-row select{
+    width:100%;padding:12px 14px;border:1px solid var(--line);background:#fff;font-family:inherit;font-size:14px;
+  }
+  .form-row textarea{resize:vertical;height:90px;}
+  .contact-info{background:var(--paper);border:1px solid var(--line);padding:28px;}
+  .contact-info h3{margin-bottom:14px;font-size:18px;}
+  .contact-info .row{display:flex;gap:14px;margin-bottom:16px;font-size:14px;}
+  .contact-info .row .mono{min-width:90px;color:var(--brass);}
+
+  /* CHAT WIDGET */
+  .chat-fab{
+    position:fixed;bottom:28px;right:28px;
+    width:60px;height:60px;border-radius:50%;
+    background:var(--brass);
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 8px 20px rgba(0,0,0,.25);
+    cursor:pointer;
+  }
+  .chat-fab svg{width:26px;height:26px;}
+  .chat-panel{
+    position:fixed;bottom:100px;right:28px;
+    width:300px;
+    background:#fff;border:1px solid var(--line);
+    box-shadow:0 12px 30px rgba(0,0,0,.18);
+    z-index:999;
+  }
+  .chat-head{
+    background:var(--ink);color:#fff;padding:14px 16px;
+    font-size:13px;font-weight:600;display:flex;justify-content:space-between;align-items:center;
+  }
+  .chat-head .dot{width:8px;height:8px;border-radius:50%;background:#5FD08A;display:inline-block;margin-right:6px;}
+  .chat-body{padding:16px;font-size:13px;}
+  .bubble{background:#EFEBE0;padding:10px 12px;border-radius:10px;margin-bottom:10px;max-width:85%;}
+  .bubble.user{background:var(--ink);color:#fff;margin-left:auto;}
+  .chat-input{display:flex;border-top:1px solid var(--line);}
+  .chat-input input{flex:1;border:none;padding:12px;font-size:13px;}
+  .chat-input button{background:var(--brass);border:none;padding:0 16px;font-size:12px;font-weight:700;cursor:pointer;}
+
+  footer{background:var(--ink);color:rgba(247,245,240,.6);padding:28px 64px;font-size:12px;display:flex;justify-content:space-between;}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">ELITE <span>INMOBILIARIA</span></div>
+  <div class="navlinks">
+    <a href="#catalogo">Catálogo de Venta</a>
+    <a href="#testimonios">Testimonios</a>
+    <a href="#contacto">Contacto</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-eyebrow">Mockup — Prototipo de Interfaz de Venta / EFSRT</div>
+  <h1>Invierte en tu próximo hogar de forma inteligente.</h1>
+  <p>Catálogo exclusivo de propiedades en venta y un asistente virtual 24/7 listo para resolver tus dudas sobre financiamiento y procesos de compra al instante.</p>
+  <div class="hero-actions">
+    <a class="btn btn-primary" href="#catalogo">Ver propiedades</a>
+    <a class="btn btn-ghost" href="#contacto">Agendar cita con asesor</a>
+  </div>
+  <div class="hero-specs">
+    <div><div class="num">70%</div><div class="lbl">consultas resueltas sin asesor</div></div>
+    <div><div class="num">−65%</div><div class="lbl">tiempo de búsqueda</div></div>
+    <div><div class="num">24/7</div><div class="lbl">asesoría de compra virtual</div></div>
+  </div>
+</section>
+
+<section class="section" id="catalogo">
+  <div class="section-head">
+    <div>
+      <span class="mono">Venta Directa</span>
+      <h2>Propiedades disponibles</h2>
+    </div>
+  </div>
+  <div class="filters">
+    <select><option>Distrito</option><option>Surco</option><option>Miraflores</option><option>San Borja</option></select>
+    <select><option>Rango de Precio</option><option>Hasta $150,000</option><option>Hasta $250,000</option><option>Más de $300,000</option></select>
+    <select><option>Habitaciones</option><option>1</option><option>2</option><option>3+</option></select>
+  </div>
+  
+  <div class="grid">
+    
+    <!-- Tarjeta 1: Departamento Las Magnolias -->
+    <div class="card">
+      <div class="card-img">
+        <span class="tag">En Venta</span>
+        <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=600&q=80" alt="Departamento Las Magnolias">
+      </div>
+      <div class="card-body">
+        <h3>Departamento Las Magnolias</h3>
+        <div class="card-loc">Surco, Lima</div>
+        <div class="card-specs"><span>3 HAB</span><span>2 BAÑO</span><span>85 M²</span></div>
+        <div class="card-price"><span class="price">$145,000</span><a href="#">Ver detalles →</a></div>
+      </div>
+    </div>
+    
+    <!-- Tarjeta 2: Flat San Borja Norte -->
+    <div class="card">
+      <div class="card-img">
+        <span class="tag">En Venta</span>
+        <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=600&q=80" alt="Flat San Borja Norte">
+      </div>
+      <div class="card-body">
+        <h3>Flat San Borja Norte</h3>
+        <div class="card-loc">San Borja, Lima</div>
+        <div class="card-specs"><span>2 HAB</span><span>1 BAÑO</span><span>62 M²</span></div>
+        <div class="card-price"><span class="price">$118,000</span><a href="#">Ver detalles →</a></div>
+      </div>
+    </div>
+    
+    <!-- Tarjeta 3: Casa Jardines de Miraflores -->
+    <div class="card">
+      <div class="card-img">
+        <span class="tag">En Venta</span>
+        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&q=80" alt="Casa Jardines de Miraflores">
+      </div>
+      <div class="card-body">
+        <h3>Casa Jardines de Miraflores</h3>
+        <div class="card-loc">Miraflores, Lima</div>
+        <div class="card-specs"><span>4 HAB</span><span>3 BAÑO</span><span>140 M²</span></div>
+        <div class="card-price"><span class="price">$310,000</span><a href="#">Ver detalles →</a></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="testi-wrap" id="testimonios">
+  <div class="section">
+    <div class="section-head" style="border-color:rgba(247,245,240,.2);">
+      <div>
+        <span class="mono">Testimonios</span>
+        <h2 style="color:#fff;">Lo que dicen nuestros compradores</h2>
+      </div>
+    </div>
+    <div class="testi-grid">
+      <div class="testi">
+        <div class="stars">★★★★★</div>
+        <p class="quote">Resolví mis dudas sobre la cuota inicial y los requisitos del crédito hipotecario de madrugada, sin esperar al día siguiente.</p>
+        <div class="who">Renato V. — Propietario</div>
+      </div>
+      <div class="testi">
+        <div class="stars">★★★★★</div>
+        <p class="quote">Buscaba opciones de inversión para comprar. El catálogo filtrado me ahorró semanas de llamadas con agencias.</p>
+        <div class="who">Carla M. — Compradora</div>
+      </div>
+      <div class="testi">
+        <div class="stars">★★★★•</div>
+        <p class="quote">El asistente filtra a los clientes realmente interesados en comprar y yo me enfoco en las visitas físicas.</p>
+        <div class="who">Jorge T. — Asesor comercial</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="contacto">
+  <div class="section-head">
+    <div>
+      <span class="mono">Contacto</span>
+      <h2>Solicita una visita o asesoría financiera</h2>
+    </div>
+  </div>
+  <div class="contact-wrap">
+    <form>
+      <div class="form-row"><label>Nombre completo</label><input type="text" placeholder="Ej. María Quispe"></div>
+      <div class="form-row"><label>Correo electrónico</label><input type="email" placeholder="correo@ejemplo.com"></div>
+      <div class="form-row"><label>Propiedad de interés</label>
+        <select><option>Departamento Las Magnolias</option><option>Flat San Borja Norte</option><option>Casa Jardines de Miraflores</option></select>
+      </div>
+      <div class="form-row"><label>Mensaje o consulta sobre la compra</label><textarea placeholder="Cuéntanos si cuentas con un crédito preaprobado o deseas agendar una visita..."></textarea></div>
+      <button class="btn btn-primary" type="button" style="background:var(--ink);color:#fff;">Enviar consulta</button>
+    </form>
+    <div class="contact-info">
+      <h3>Elite Inmobiliaria</h3>
+      <div class="row"><span class="mono">Oficina</span><span>Av. Javier Prado 1234, San Isidro, Lima</span></div>
+      <div class="row"><span class="mono">Teléfono</span><span>+51 987 654 321</span></div>
+      <div class="row"><span class="mono">Horario</span><span>Lun–Vie 9:00–18:00 (atención humana)</span></div>
+      <div class="row"><span class="mono">Asistente IA</span><span>Disponible 24/7 para consultas de compra</span></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 Elite Inmobiliaria — Proyecto académico EFSRT, Grupo XI</span>
+  <span>Prototipo de interfaz enfocado en venta de inmuebles</span>
+</footer>
+
+<div class="chat-panel" id="chatPanel" style="display:none;">
+  <div class="chat-head"><span><span class="dot"></span>Asistente Elite</span><span style="cursor:pointer;" onclick="document.getElementById('chatPanel').style.display='none';">✕</span></div>
+  <div class="chat-body">
+    <div class="bubble">Hola 👋 Soy el asistente de Elite Inmobiliaria. ¿Te interesa comprar alguna propiedad o tienes dudas sobre créditos hipotecarios?</div>
+    <div class="bubble user">¿Qué necesito para calificar a la compra de un departamento?</div>
+    <div class="bubble">Habitualmente requieres una cuota inicial mínima del 10%, sustento de ingresos y aprobación crediticia. ¿Te gustaría que un asesor evalúe tu perfil financiero?</div>
+  </div>
+  <div class="chat-input">
+    <input type="text" placeholder="Escribe tu consulta...">
+    <button>Enviar</button>
+  </div>
+</div>
+
+<div class="chat-fab" onclick="var p=document.getElementById('chatPanel'); p.style.display = p.style.display==='none' ? 'block' : 'none';">
+  <svg viewBox="0 0 24 24" fill="none" stroke="#1E2A4A" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+</div>
+
+</body>
+</html>
