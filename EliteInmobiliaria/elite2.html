@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Elite Inmobiliaria — Catálogo de Venta y Asistente Virtual</title>
+<title>Elite Inmobiliaria — Prototipo EFSRT (Grupo: Alvarez Vilca)</title>
 <style>
   :root{
     --ink:#1E2A4A;
@@ -109,7 +109,6 @@
     background:#fff;
   }
   
-  /* CORRECCIÓN AQUÍ: Se limpió el fondo antiguo para dar espacio a la etiqueta img */
   .card-img{
     height:200px;
     position:relative;
@@ -117,7 +116,6 @@
     background:#EFEBE0;
   }
   
-  /* Se añadieron propiedades para que las imágenes reales se adapten perfectamente */
   .card-img img{
     width:100%;
     height:100%;
@@ -129,7 +127,7 @@
     background:var(--green-ok);color:#fff;
     font-family:'Courier New',monospace;font-size:10px;text-transform:uppercase;
     padding:4px 8px;
-    z-index:10; /* Asegura que la etiqueta quede por encima de la foto */
+    z-index:10;
   }
   .card-body{padding:18px 18px 22px;}
   .card-body h3{font-size:18px;margin-bottom:4px;}
@@ -199,7 +197,29 @@
   .chat-input input{flex:1;border:none;padding:12px;font-size:13px;}
   .chat-input button{background:var(--brass);border:none;padding:0 16px;font-size:12px;font-weight:700;cursor:pointer;}
 
-  footer{background:var(--ink);color:rgba(247,245,240,.6);padding:28px 64px;font-size:12px;display:flex;justify-content:space-between;}
+  /* ESTILOS DEL FOOTER MEJORADOS (MÁS NOTORIOS Y ELEGANTES) */
+  footer{
+    background:var(--ink);
+    color:rgba(247,245,240,.85);
+    padding:28px 64px;
+    font-size:12px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+  }
+  footer .credits{
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+  }
+  footer .credits .author-name {
+    color: #ffffff;
+    font-weight: 500;
+  }
+  footer .credits .author-title {
+    color: var(--brass);
+    font-weight: 600;
+  }
 </style>
 </head>
 <body>
@@ -243,7 +263,6 @@
   
   <div class="grid">
     
-    <!-- Tarjeta 1: Departamento Las Magnolias -->
     <div class="card">
       <div class="card-img">
         <span class="tag">En Venta</span>
@@ -257,7 +276,6 @@
       </div>
     </div>
     
-    <!-- Tarjeta 2: Flat San Borja Norte -->
     <div class="card">
       <div class="card-img">
         <span class="tag">En Venta</span>
@@ -271,7 +289,6 @@
       </div>
     </div>
     
-    <!-- Tarjeta 3: Casa Jardines de Miraflores -->
     <div class="card">
       <div class="card-img">
         <span class="tag">En Venta</span>
@@ -344,14 +361,17 @@
 </section>
 
 <footer>
-  <span>© 2026 Elite Inmobiliaria — Proyecto académico EFSRT, Grupo XI</span>
+  <div class="credits">
+    <span>© 2026 Elite Inmobiliaria — Proyecto de Investigación EFSRT III (Cibertec)</span>
+    <span><span class="author-title">Autores:</span> <span class="author-name">Segundo Demetrio Alvarez Vilca — Patricia Elena Camacho Mires — Diego Erickson Pacheco Yave — Matías Vera Morales</span></span>
+  </div>
   <span>Prototipo de interfaz enfocado en venta de inmuebles</span>
 </footer>
 
 <div class="chat-panel" id="chatPanel" style="display:none;">
   <div class="chat-head"><span><span class="dot"></span>Asistente Elite</span><span style="cursor:pointer;" onclick="document.getElementById('chatPanel').style.display='none';">✕</span></div>
   <div class="chat-body">
-    <div class="bubble">Hola 👋 Soy el asistente de Elite Inmobiliaria. ¿Te interesa comprar alguna propiedad o tienes dudas sobre créditos hipotecarios?</div>
+    <div class="bubble">Hola 👋 Soy el Asistente de Elite Inmobiliaria, un prototipo de IA diseñado por el Grupo Alvarez Vilca para Cibertec 2026. ¿Te interesa comprar alguna propiedad o tienes dudas sobre créditos hipotecarios?</div>
     <div class="bubble user">¿Qué necesito para calificar a la compra de un departamento?</div>
     <div class="bubble">Habitualmente requieres una cuota inicial mínima del 10%, sustento de ingresos y aprobación crediticia. ¿Te gustaría que un asesor evalúe tu perfil financiero?</div>
   </div>
