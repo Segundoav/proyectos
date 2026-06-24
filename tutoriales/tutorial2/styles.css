@@ -1,0 +1,160 @@
+/* Selecciona toda la página a través de la etiqueta body para aplicar estilos generales */
+body {
+    /* Modifica el tipo de letra por defecto a una familia moderna, limpia y sin serifas */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    /* Aplica un color de fondo gris azulado suave en toda la pantalla del sitio web */
+    background-color: #eef2f7;
+    /* Establece el color de las fuentes de texto a un tono gris oscuro para mejorar la lectura */
+    color: #2c3e50;
+    /* Elimina los márgenes exteriores automáticos que añade el navegador en los bordes */
+    margin: 0;
+    /* Borra los espacios de relleno internos que vienen configurados por defecto de fábrica */
+    padding: 0;
+}
+
+/* Selecciona la etiqueta del encabezado visible para modificar su presentación visual */
+header {
+    /* Pone un color de fondo gradiente oscuro y elegante en el encabezado */
+    background: linear-gradient(135deg, #2c3e50, #34495e);
+    /* Cambia el color del texto de la cabecera a blanco absoluto para lograr contraste */
+    color: white;
+    /* Centra la alineación horizontal de todos los textos dentro de este elemento */
+    text-align: center;
+    /* Añade una separación interna de protección de 40 píxeles arriba y abajo */
+    padding: 40px 20px;
+}
+
+/* Invoca el elemento contenedor mediante el punto inicial que indica una clase HTML */
+.contenedor {
+    /* Agrega un colchón de aire o espacio libre de relleno de 30 píxeles a los lados */
+    padding: 30px;
+    /* Activa la estructura Flexbox que ayuda a alinear cajas internas cómodamente */
+    display: flex;
+    /* Ubica y centra simétricamente todas las cajas hijas en el punto medio del eje horizontal */
+    justify-content: center;
+}
+
+/* Selecciona la clase de la tarjeta principal de la aplicación */
+.tarjeta-aplicacion {
+    /* Asigna un fondo blanco puro al interior del cuadro para separarlo del fondo gris */
+    background-color: white;
+    /* Modifica las esquinas del cuadro cortándolas con un radio curvo de 16 píxeles */
+    border-radius: 16px;
+    /* Proyecta una sombra más profunda y difuminada para generar un efecto flotante profesional */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    /* Genera un espacio de aire interno de 30 píxeles para alejar los textos de los bordes */
+    padding: 30px;
+    /* Fija un límite de anchura máxima de 500 píxeles para que la caja no se deforme */
+    width: 100%;
+    max-width: 500px;
+}
+
+/* Controla la fila interactiva donde se posicionan el input y el botón juntos */
+.grupo-entrada {
+    /* Activa Flexbox para colocar los dos elementos lado a lado en la misma línea */
+    display: flex;
+    /* Genera una separación de 10 píxeles entre el input y el botón */
+    gap: 10px;
+    /* Establece un margen de separación inferior de 20 píxeles */
+    margin-bottom: 20px;
+}
+
+/* Estiliza la barra de entrada de texto */
+input[type="text"] {
+    /* Hace que la barra de texto se estire y ocupe todo el espacio sobrante de la fila */
+    flex: 1;
+    /* Añade relleno interno para que el texto que escriba el usuario no esté apretado */
+    padding: 12px;
+    /* Asigna un tamaño de letra de 15 píxeles */
+    font-size: 15px;
+    /* Coloca un borde gris claro delgado alrededor de la caja */
+    border: 2px solid #dcdde1;
+    /* Curva ligeramente las esquinas de la barra con un radio de 8 píxeles */
+    border-radius: 8px;
+    /* Elimina la línea azul de enfoque por defecto cuando se hace clic dentro */
+    outline: none;
+    /* Aplica una transición suave de 0.2 segundos al cambiar el color del borde */
+    transition: border-color 0.2s;
+}
+
+/* Modifica el comportamiento visual del input cuando el usuario hace clic para escribir */
+input[type="text"]:focus {
+    /* Transforma el borde gris en un azul brillante para denotar actividad */
+    border-color: #3498db;
+}
+
+/* Selecciona el componente de tipo botón para cambiar su diseño gris nativo */
+button {
+    /* Pone un color de fondo azul púrpura para invitar visualmente a la acción */
+    background-color: #3498db;
+    /* Modifica el color de las letras del botón a blanco absoluto */
+    color: white;
+    /* Remueve las líneas de borde gruesas y toscas que los botones traen de fábrica */
+    border: none;
+    /* Asigna una holgura interna de 12 píxeles en vertical y 20 en horizontal */
+    padding: 12px 20px;
+    /* Ajusta el grosor de la tipografía interna para que sea seminegrita */
+    font-weight: 600;
+    /* Redondea las esquinas del botón con un radio curvo sutil de 8 píxeles */
+    border-radius: 8px;
+    /* Transforma la flecha común del cursor por una mano interactiva al apuntar al elemento */
+    cursor: pointer;
+    /* Ralentiza y suaviza las animaciones físicas del bloque durante 0.2 segundos de transición */
+    transition: background-color 0.2s;
+}
+
+/* Cambia el diseño visual del botón solo cuando el cursor del mouse pasa por encima */
+button:hover {
+    /* Oscurece el tono azul de fondo para confirmar que el botón está listo para recibir el clic */
+    background-color: #2980b9;
+}
+
+/* Estiliza la lista contenedora de tareas removiendo viñetas por defecto */
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Estilos dinámicos para los elementos de lista (li) creados desde JavaScript */
+li {
+    /* Activa flexbox para separar el texto del botón de eliminar a los extremos */
+    display: flex;
+    /* Empuja el texto a la izquierda y el botón a la derecha equitativamente */
+    justify-content: space-between;
+    /* Centra verticalmente el contenido dentro de la fila */
+    align-items: center;
+    /* Añade un relleno interno para darle cuerpo a la fila de la tarea */
+    padding: 12px;
+    /* Coloca una línea de separación inferior muy sutil entre tareas */
+    border-bottom: 1px solid #f1f2f6;
+    /* Animación de entrada fluida */
+    animation: aparecer 0.3s ease;
+}
+
+/* Clase especial que JavaScript asignará dinámicamente cuando el usuario complete una tarea */
+.completada {
+    /* Tacha el texto por la mitad simulando un check de finalizado */
+    text-decoration: line-through;
+    /* Opaca el color del texto para indicar que ya no está activo */
+    color: #7f8c8d;
+}
+
+/* Botón de eliminación pequeño integrado dentro de cada fila li */
+.btn-eliminar {
+    /* Color de fondo rojo pastel para advertir peligro */
+    background-color: #e74c3c;
+    padding: 6px 12px;
+    font-size: 12px;
+}
+
+.btn-eliminar:hover {
+    /* Oscurece el botón de eliminación a un tono carmesí al pasar el cursor */
+    background-color: #c0392b;
+}
+
+/* Efecto visual de animación para las tareas nuevas */
+@keyframes aparecer {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}

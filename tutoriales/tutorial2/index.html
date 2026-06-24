@@ -1,0 +1,57 @@
+<!-- Define que el documento utiliza el estándar moderno de HTML5 -->
+<!DOCTYPE html>
+<!-- Abre el documento HTML y establece el idioma español para los lectores de pantalla -->
+<html lang="es">
+<!-- Inicia la cabecera del documento, donde va la configuración técnica oculta -->
+<head>
+    <!-- Configura el mapa de caracteres UTF-8 para procesar acentos, eñes y caracteres especiales -->
+    <meta charset="UTF-8">
+    <!-- Ajusta la escala del sitio para que se visualice correctamente en celulares y pantallas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Asigna el nombre que aparecerá en la pestaña superior del navegador de internet -->
+    <title>Gestor de Tareas Inteligente</title>
+    <!-- Vincula este archivo estructural de manera directa con las reglas de estilo de styles.css -->
+    <link rel="stylesheet" href="styles.css">
+<!-- Cierra la sección de configuración de la cabecera técnica -->
+</head>
+<!-- Inicia el cuerpo de la página, el espacio donde se coloca todo el contenido que verá el usuario -->
+<body>
+
+    <!-- Bloque de cabecera visible en la parte superior del diseño web -->
+    <header>
+        <!-- Inserta el título principal y más grande del encabezado de la página -->
+        <h1>Mi Organizador de Proyectos</h1>
+        <!-- Inserta un párrafo de texto explicativo o descriptivo debajo del título -->
+        <p>Añade y gestiona tus actividades del día en tiempo real.</p>
+    <!-- Cierra el bloque de la cabecera visible -->
+    </header>
+
+    <!-- Delimita el contenido central o principal de la página con la clase contenedor -->
+    <main class="contenedor">
+        <!-- Crea un contenedor tipo caja (div) con una clase de diseño y un identificador ID lógico -->
+        <div class="tarjeta-aplicacion" id="panelControl">
+            <!-- Inserta un título secundario de tamaño mediano dentro del contenedor -->
+            <h2>Lista de Pendientes</h2>
+            
+            <!-- Grupo de control para el ingreso de nuevos datos -->
+            <div class="grupo-entrada">
+                <!-- Campo de texto interactivo donde el usuario escribe; tiene un placeholder informativo -->
+                <button id="btnAgregar">Agregar</button>
+                <input type="text" id="campoTarea" placeholder="Ej. Estudiar JavaScript para Cibertec...">
+                <!-- Botón cliqueable para registrar la acción de agregar tareas -->
+                
+            </div>
+
+            <!-- Lista desordenada (unordered list) vacía. Aquí es donde la magia de JavaScript creará los elementos dinámicos -->
+            <ul id="listaTareas"></ul>
+        <!-- Cierra la estructura de la caja contenedora de la tarjeta -->
+        </div>
+    <!-- Cierra el bloque de contenido central de la página -->
+    </main>
+
+    <!-- Enlaza el documento con el archivo script.js para procesar los eventos lógicos del usuario -->
+    <script src="script.js"></script>
+<!-- Cierra el cuerpo del contenido visible de la página web -->
+</body>
+<!-- Cierra la estructura completa del código fuente del documento HTML -->
+</html>
