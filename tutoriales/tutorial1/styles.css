@@ -1,0 +1,76 @@
+/* Selecciona toda la página a través de la etiqueta body para aplicar estilos generales */
+body {
+    /* Modifica el tipo de letra por defecto a una familia moderna, limpia y sin serifas */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    /* Aplica un color de fondo gris claro en toda la pantalla del sitio web */
+    background-color: #f0f2f5;
+    /* Establece el color de las fuentes de texto a un tono gris oscuro para mejorar la lectura */
+    color: #333333;
+    /* Elimina los márgenes exteriores automáticos que añade el navegador en los bordes del papel */
+    margin: 0;
+    /* Borra los espacios de relleno internos que vienen configurados por defecto de fábrica */
+    padding: 0;
+    /* Centra la alineación horizontal de todos los textos dentro de este elemento */
+    text-align: center;
+}
+/* Selecciona la etiqueta del encabezado visible para modificar su presentación visual */
+header {
+    /* Pone un color de fondo azul brillante para destacar la cabecera en el diseño */
+    background-color: #4a90e2;
+    /* Cambia el color del texto de la cabecera a blanco absoluto para lograr contraste */
+    color: white;
+    /* Añade una separación interna de protección de 30 píxeles por cada lado */
+    padding: 30px;
+}
+/* Invoca el elemento contenedor mediante el punto inicial que indica una clase HTML */
+.contenedor {
+    /* Agrega un colchón de aire o espacio libre de relleno de 40 píxeles a los lados */
+    padding: 40px;
+    /* Activa la estructura Flexbox que ayuda a alinear cajas internas cómodamente */
+    display: flex;
+    /* Ubica y centra simétricamente todas las cajas hijas en el punto medio del eje horizontal */
+    justify-content: center;
+}
+/* Selecciona la clase tarjeta para darle forma de bloque blanco independiente */
+.tarjeta {
+    /* Asigna un fondo blanco puro al interior del cuadro para separarlo del gris de la web */
+    background-color: white;
+    /* Modifica las esquinas del cuadro cortándolas con un radio curvo de 12 píxeles */
+    border-radius: 12px;
+    /* Proyecta una sombra sutil difuminada en los bordes para generar un efecto flotante 3D */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* Genera un espacio de aire interno de 30 píxeles para alejar los textos de los bordes */
+    padding: 30px;
+    /* Fija un límite de anchura máxima de 400 píxeles para que la caja no se deforme */
+    max-width: 400px;
+    /* Ralentiza y suaviza las animaciones físicas del bloque durante 0.3 segundos de transición */
+    transition: transform 0.3s ease;
+}
+/* Modifica las reglas de la tarjeta únicamente cuando el usuario posa el mouse sobre el bloque */
+.tarjeta:hover {
+    /* Traslada la caja 5 píxeles hacia arriba de forma fluida simulando una elevación real */
+    transform: translateY(-5px);
+}
+/* Selecciona el componente de tipo botón para cambiar su diseño gris nativo */
+button {
+    /* Pone un color de fondo verde esmeralda para invitar visualmente a la acción */
+    background-color: #2ecc71;
+    /* Modifica el color de las letras del botón a blanco absoluto */
+    color: white;
+    /* Remueve las líneas de borde gruesas y toscas que los botones traen de fábrica */
+    border: none;
+    /* Asigna una holgura interna de 12 píxeles en vertical y 24 píxeles en dirección horizontal */
+    padding: 12px 24px;
+    /* Ajusta el tamaño de la tipografía interna para que mida exactamente 16 píxeles */
+    font-size: 16px;
+    /* Redondea las esquinas del botón con un radio curvo sutil de 8 píxeles */
+    border-radius: 8px;
+    /* Transforma la flecha común del cursor por una mano interactiva al apuntar al elemento */
+    cursor: pointer;
+}
+/* Cambia el diseño visual del botón solo cuando el cursor del mouse pasa por encima */
+button:hover {
+    /* Oscurece el tono verde de fondo para confirmar que el botón está listo para recibir el clic */
+    background-color: #27ae60;
+}
+    
