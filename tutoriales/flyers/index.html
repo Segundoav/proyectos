@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generador de Flyers — Actividades del Barrio</title>
+  <!-- Fuentes desde Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Vinculación del archivo CSS externo -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+ 
+  <div class="topbar">
+    <div class="mark">⛪</div>
+    <div>
+      <h1>Generador de Flyers de Barrio</h1>
+      <p>Diseños variados para cada actividad — nunca el mismo dos veces</p>
+    </div>
+  </div>
+ 
+  <div class="layout">
+    <!-- ================= PANEL DE CONTROL ================= -->
+    <div class="panel">
+      <h2>⚙️ Datos de la Actividad</h2>
+ 
+      <div class="field">
+        <label>📋 Tipo de Actividad</label>
+        <select id="category">
+          <optgroup label="⛪ Actividades de la Iglesia">
+            <option value="Noche Misional">🌟 Noche Misional</option>
+            <option value="Actividad de Limpieza">🧹 Actividad de Limpieza</option>
+            <option value="Sociedad de Socorro">🌸 Sociedad de Socorro</option>
+            <option value="Primaria">🎈 Actividad de Primaria</option>
+            <option value="Actividad de Jóvenes">⚡ Actividad de Jóvenes (Corrillo)</option>
+            <option value="Obra Misional">📖 Obra Misional</option>
+            <option value="Noche de Hogar">🏠 Noche de Hogar</option>
+            <option value="Conferencia de Barrio">⛪ Conferencia de Barrio</option>
+            <option value="Conferencia de Estaca">🏛️ Conferencia de Estaca</option>
+          </optgroup>
+          <optgroup label="🎊 Otras Actividades">
+            <option value="Actividad Social">🎉 Actividad Social / Convivio</option>
+            <option value="Cumpleaños">🎂 Cumpleaños</option>
+            <option value="Baby Shower">🍼 Baby Shower</option>
+            <option value="Graduación">🎓 Graduación</option>
+            <option value="Aniversario">💍 Aniversario / Boda</option>
+            <option value="Reunión Familiar">👨‍👩‍👧‍👦 Reunión Familiar</option>
+            <option value="Despedida o Bienvenida">👋 Despedida / Bienvenida</option>
+            <option value="Evento Deportivo">⚽ Evento Deportivo</option>
+          </optgroup>
+          <optgroup label="✏️ Otro">
+            <option value="Personalizada">✏️ Personalizada</option>
+          </optgroup>
+        </select>
+      </div>
+ 
+      <div class="field" id="customTitleField" style="display:none;">
+        <label>✏️ Nombre de la Actividad</label>
+        <input type="text" id="customTitle" placeholder="Ej: Actividad de Servicio">
+      </div>
+ 
+      <div class="field">
+        <label>💬 Frase o Cita (opcional)</label>
+        <input type="text" id="quote" placeholder="Ej: un lema o mensaje corto">
+      </div>
+ 
+      <div class="field">
+        <label>🗓️ Día y Hora</label>
+        <input type="text" id="datetime" placeholder="Ej: Sábado 12, 3:00 pm" value="Sábado 12, 3:00 pm">
+      </div>
+ 
+      <div class="field">
+        <label>📍 Lugar / Capilla</label>
+        <input type="text" id="location" placeholder="Ej: Capilla Belaúnde" value="Capilla Belaúnde">
+      </div>
+ 
+      <div class="field">
+        <label>➕ Información Adicional (opcional)</label>
+        <textarea id="extra" placeholder="Ej: Traer ropa de trabajo, se servirá refrigerio"></textarea>
+      </div>
+ 
+      <div class="divider"></div>
+ 
+      <div class="field">
+        <label>🔑 Clave gratuita de Pexels (recomendado)</label>
+        <input type="text" id="pexelsKey" placeholder="Pega aquí tu API Key de Pexels">
+        <p class="hint">Sin esta clave, las fotos serán genéricas. Es gratis en <a href="https://www.pexels.com/api/" target="_blank" rel="noopener">pexels.com/api</a>.</p>
+        <div id="apiStatus" style="font-size:11.5px;margin-top:4px;font-weight:600;"></div>
+      </div>
+ 
+      <div class="divider"></div>
+ 
+      <div class="field">
+        <label>🖼️ Foto de Fondo</label>
+        <div class="upload-row">
+          <label class="upload-btn" for="photoInput">Subir mi propia foto</label>
+          <input type="file" id="photoInput" accept="image/*" style="display:none;">
+          <button class="clear-btn" id="clearPhoto" style="display:none;">Quitar</button>
+          <img id="thumb" class="upload-thumb">
+        </div>
+      </div>
+ 
+      <button class="generate-btn" id="generateBtn">✨ Generar 4 Diseños Variados</button>
+    </div>
+ 
+    <!-- ================= SECCIÓN DE RESULTADOS ================= -->
+    <div class="results">
+      <div class="results-head">
+        <div>
+          <h2>Vista Previa de Opciones</h2>
+          <div class="sub">Elige tu favorito para descargarlo en alta resolución</div>
+        </div>
+        <button class="regen-btn" id="regenBtn" style="display:none;">🔁 Generar otras 4 opciones</button>
+      </div>
+ 
+      <div id="resultsArea">
+        <div class="empty-state">
+          <div class="ico">🎨</div>
+          <h3>Aún no hay diseños generados</h3>
+          <p>Completa los datos de la actividad a la izquierda y presiona el botón para empezar.</p>
+        </div>
+      </div>
+ 
+      <div id="selectedPanel" class="selected-panel" style="display:none;"></div>
+    </div>
+  </div>
+ 
+  <!-- Motores JavaScript externos -->
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas-pro@1/dist/html2canvas-pro.min.js"></script>
+  <!-- Vinculación del archivo JS lógico -->
+  <script src="script.js"></script>
+</body>
+</html>
