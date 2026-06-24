@@ -14,3 +14,4 @@ boton.addEventListener("click", function() {
     alert("¡Felicidades! Acabas de ejecutar tu primer código en JavaScript.");
 // Cierra la función interna del evento y clausura de manera formal el bloque de escucha
 });
+
