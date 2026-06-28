@@ -1,135 +1,233 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Generador de Flyers — Actividades del Barrio</title>
-  <!-- Fuentes desde Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <!-- Vinculación del archivo CSS externo -->
-  <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Creador de Flyers Automatizado</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Bebas+Neue&family=Cinzel+Decorative&family=Cinzel:wght@700&family=Courier+Prime:ital,wght@0,700;1,700&family=Fugaz+One&family=Inter:wght@400;700;900&family=Montserrat:wght@700;900&family=Permanent+Marker&family=Playfair+Display:ital,wght@0,700;1,900&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+
+<!-- IMPORTANTE: usamos html2canvas-pro (no el html2canvas clásico) porque el clásico
+     no entiende el formato de color "oklab()" que usa Chrome moderno internamente,
+     y eso es lo que rompía la descarga con el error "unsupported color function oklab". -->
+<script src="https://cdn.jsdelivr.net/npm/html2canvas-pro@1.5.12/dist/html2canvas-pro.min.js"></script>
+
+<style>
+:root {
+  --bg-main: #f1f5f9;
+  --bg-card: #ffffff;
+  --text-dark: #1e293b;
+  --border-color: #cbd5e1;
+  --primary-blue: #2563eb;
+  --primary-hover: #1d4ed8;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', sans-serif; background-color: var(--bg-main); color: var(--text-dark); padding: 20px; }
+
+.container { display: flex; flex-direction: row; gap: 24px; max-width: 1400px; margin: 0 auto; align-items: flex-start; }
+
+/* COLUMNA IZQUIERDA: CONFIGURACIÓN */
+.panel-config { flex: 1; background: var(--bg-card); padding: 24px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid var(--border-color); }
+.panel-config h2 { font-size: 20px; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; color: #334155; }
+
+.form-group { margin-bottom: 16px; }
+.form-group label { display: block; font-size: 13px; font-weight: 700; color: #475569; margin-bottom: 6px; }
+.form-group label span { font-weight: normal; color: #64748b; }
+
+input[type="text"], select, textarea { width: 100%; padding: 10px 12px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 14px; color: var(--text-dark); background-color: #fff; font-family: inherit; }
+input[type="text"]:focus, select:focus, textarea:focus { outline: 2px solid var(--primary-blue); border-color: transparent; }
+
+/* Subir archivo interactivo */
+.file-upload-wrapper { position: relative; width: 100%; border: 1px dashed var(--primary-blue); background: #f8fafc; padding: 14px; border-radius: 6px; text-align: center; cursor: pointer; transition: background 0.2s; }
+.file-upload-wrapper:hover { background: #f0fdf4; }
+.file-upload-wrapper input[type="file"] { position: absolute; left: 0; top: 0; opacity: 0; width: 100%; height: 100%; cursor: pointer; }
+.file-upload-wrapper p { font-size: 13px; color: #2563eb; font-weight: bold; }
+
+.row-inputs { display: flex; gap: 12px; }
+.row-inputs .form-group { flex: 1; }
+
+.btn-generate { width: 100%; padding: 14px; background-color: var(--primary-blue); color: white; border: none; border-radius: 8px; font-size: 15px; font-weight: bold; cursor: pointer; transition: background 0.2s; margin-top: 10px; }
+.btn-generate:hover { background-color: var(--primary-hover); }
+.btn-generate:disabled { background-color: #94a3b8; cursor: not-allowed; }
+
+/* COLUMNA DERECHA: RESULTADOS */
+.panel-results { flex: 1.2; display: flex; flex-direction: column; gap: 20px; position: sticky; top: 20px; }
+.panel-results h2 { font-size: 20px; display: flex; align-items: center; gap: 8px; color: #334155; }
+
+/* CUADRÍCULA DE TARJETAS 2x2 */
+.grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+
+.flyer-wrap { background: var(--bg-card); border-radius: 12px; overflow: hidden; border: 1px solid var(--border-color); box-shadow: 0 4px 10px rgba(0,0,0,0.04); cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column; position: relative; }
+.flyer-wrap:hover { transform: translateY(-4px); box-shadow: 0 10px 20px rgba(0,0,0,0.08); }
+.flyer-wrap.selected { outline: 4px solid var(--primary-blue); box-shadow: 0 0 25px rgba(37,99,235,0.25); }
+
+/* Cintillo superior de control de la tarjeta */
+.tag { background: #f8fafc; padding: 8px 12px; font-size: 11px; font-weight: bold; color: #64748b; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; gap: 4px; }
+
+/* Estilos de botones de Candado */
+.btn-lock { background: #ffffff; border: 1px solid var(--border-color); padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; cursor: pointer; color: #475569; display: flex; align-items: center; gap: 4px; transition: all 0.2s; }
+.btn-lock:hover { background: #f1f5f9; border-color: #94a3b8; }
+.btn-lock.locked { background: #fef3c7; border-color: #f59e0b; color: #b45309; }
+
+/* LIENZO DIGITAL DEL FLYER REALISTA (Proporción Flyer) */
+.flyer-card { width: 100%; aspect-ratio: 800 / 1100; position: relative; overflow: hidden; background: #000; container-type: inline-size; display: flex; flex-direction: column; justify-content: flex-end; }
+.f-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; }
+.f-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; }
+.f-content { position: relative; z-index: 3; width: 100%; height: 100%; display: flex; flex-direction: column; box-sizing: border-box; }
+
+/* SECCIÓN DE BOTONES INFERIORES */
+.bottom-actions { display: flex; gap: 12px; width: 100%; margin-top: 5px; }
+.btn-secondary { flex: 1; padding: 12px; background-color: #3b4252; color: white; border: none; border-radius: 8px; font-size: 14px; font-weight: bold; cursor: pointer; display: none; transition: background 0.2s; }
+.btn-secondary:hover { background-color: #2e3440; }
+.btn-back-history { flex: 1; padding: 12px; background-color: #64748b; color: white; border: none; border-radius: 8px; font-size: 14px; font-weight: bold; cursor: pointer; display: none; transition: background 0.2s; }
+.btn-back-history:hover { background-color: #475569; }
+
+/* PANEL CENTRAL DE SELECCIÓN Y REMIXES */
+.selected-panel { background: var(--bg-card); border-radius: 12px; padding: 20px; border: 2px solid var(--primary-blue); display: none; gap: 20px; align-items: center; box-shadow: 0 10px 30px rgba(0,0,0,0.08); margin-top: 10px; }
+.selected-preview { width: 180px; flex-shrink: 0; border-radius: 6px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+.selected-actions { flex: 1; display: flex; flex-direction: column; gap: 12px; }
+.selected-actions h3 { font-size: 16px; color: #0f172a; }
+.selected-actions p { font-size: 13px; color: #64748b; line-height: 1.4; }
+.style-btn { width: 100%; padding: 10px; background-color: #f1f5f9; color: #1e293b; border: 1px solid var(--border-color); border-radius: 6px; font-weight: bold; cursor: pointer; }
+.style-btn:hover { background-color: #e2e8f0; }
+.download-btn { width: 100%; padding: 12px; background-color: #10b981; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 14px; }
+.download-btn:hover { background-color: #059669; }
+.download-btn:disabled { background-color: #94a3b8; cursor: not-allowed; }
+
+@media (max-width: 900px) {
+  .container { flex-direction: column; }
+  .panel-results { position: static; }
+}
+</style>
 </head>
 <body>
- 
-  <div class="topbar">
-    <div class="mark">⛪</div>
-    <div>
-      <h1>Generador de Flyers de Barrio</h1>
-      <p>Diseños variados para cada actividad — nunca el mismo dos veces</p>
+
+<div class="container">
+
+  <div class="panel-config">
+    <h2>Creador de Flyers Barrio Belaunde</h2>
+
+    <div class="form-group">
+      <label>🔑 API Key de Pexels (Opcional)</label>
+      <input type="text" id="pexelsKey" placeholder="Pega tu clave API aquí para fotos premium..." value="">
     </div>
+
+    <div class="form-group">
+      <label>🎨 Estilo Visual del Flyer (10 Variedades)</label>
+      <select id="flyer-style">
+        <option value="solemne">1. 🏛️ Solemne / Institucional</option>
+        <option value="minimal">2. 🍃 Minimalista / Limpio</option>
+        <option value="clasico">3. 📖 Editorial Clásico</option>
+        <option value="vintage">4. 📜 Vintage / Tradicional</option>
+        <option value="moderno">5. ⚡ Moderno / Impactante</option>
+        <option value="collage">6. 🎨 Arte / Collage Urbano</option>
+        <option value="deportivo">7. 🏃‍♂️ Deportivo Dinámico</option>
+        <option value="loco">8. 🎈 Divertido / Alegre</option>
+        <option value="natural">9. 🌲 Natural / Fotografía Realista</option>
+        <option value="collegenat">10. 🌟 Collage Natural Vivo</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>📌 Temática de la Actividad</label>
+      <select id="flyer-category">
+        <option value="Obra Misional">Obra Misional</option>
+        <option value="Reunion Bautismal">Reunión Bautismal</option>
+        <option value="Sociedad de Socorro">Sociedad de Socorro</option>
+        <option value="Cuorum de Elderes">Quórum de Élderes</option>
+        <option value="Primaria">Primaria</option>
+        <option value="Hombres Jovenes">Hombres Jóvenes</option>
+        <option value="Mujeres Jovenes">Mujeres Jóvenes</option>
+        <option value="Noche Misional">Noche Misional</option>
+        <option value="Jas">JAS (Jóvenes Adultos Solteros)</option>
+        <option value="Conferencia de Barrio">Conferencia de Barrio</option>
+        <option value="Conferencia de Estaca">Conferencia de Estaca</option>
+        <option value="Actividad de Servicio">Actividad de Servicio</option>
+        <option value="Limpieza de la Capilla">Limpieza de la Capilla</option>
+        <option value="Cumpleaños">🎁 Cumpleaños Especial Individual</option>
+        <option value="Aniversario">🎉 Aniversario / Conmemoración</option>
+        <option value="Otros">Otros (Fondo Abstracto Estándar)</option>
+        <option value="Personalizado">🔍 Búsqueda Personalizada por Palabra Clave</option>
+      </select>
+    </div>
+
+    <div class="form-group" id="customTitleField" style="display: none;">
+      <label>🔎 Palabra clave para buscar foto (en español o inglés)</label>
+      <input type="text" id="custom-search-field" placeholder="Ej: musica, futbol, comida, piano...">
+    </div>
+
+    <div class="form-group">
+      <label>📸 ¿Quieres usar tus propias fotos? <span>(Opcional - Puedes elegir hasta 3 juntas)</span></label>
+      <div class="file-upload-wrapper">
+        <p>📂 Haz clic aquí para subir una o varias imágenes</p>
+        <input type="file" id="photoInput" accept="image/*" multiple>
+      </div>
+      <div style="margin-top: 8px; display: flex; align-items: center; gap: 10px;">
+        <div id="thumbContainer" style="display: flex; gap: 6px;"></div>
+        <button id="clearPhoto" style="display:none; background:#ef4444; color:white; border:none; padding:4px 8px; border-radius:4px; font-size:12px; cursor:pointer;">Eliminar fotos propias</button>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>🔤 TÍTULO PRINCIPAL</label>
+      <input type="text" id="flyer-title" placeholder="Ej: BIENVENIDO, NOCHE DE TALENTOS...">
+    </div>
+
+    <div class="form-group">
+      <label>✍️ SUBTÍTULO O FRASE CORTA</label>
+      <input type="text" id="flyer-subtitle" placeholder="Ej: Ven y participa con nosotros">
+    </div>
+
+    <div class="form-group">
+      <label for="quote">📜 Cita de Escritura / Frase Inspiracional (Opcional)</label>
+      <input type="text" id="quote" placeholder="Ej: 'Donde dos o tres están reunidos...'">
+    </div>
+
+    <div class="form-group">
+      <label>📝 Lista de Puntos o Viñetas <span>(Una línea por idea / horario)</span></label>
+      <textarea id="bullet-points" rows="3" placeholder="Ej:&#10;Traer amigos&#10;Traer escrituras&#10;Todos pueden participar"></textarea>
+    </div>
+
+    <div class="row-inputs">
+      <div class="form-group">
+        <label>📅 Fecha Principal</label>
+        <input type="text" id="datetime" placeholder="Ej: Sábado 12, 3:00 pm">
+      </div>
+      <div class="form-group">
+        <label>📍 Lugar / Dirección</label>
+        <input type="text" id="location" placeholder="Ej: Capilla Belaunde">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="extra">⚠️ Notas Adicionales o Alertas (Opcional)</label>
+      <input type="text" id="extra" placeholder="Ej: Llevar ropa cómoda / Traer bocaditos">
+    </div>
+
+    <button class="btn-generate" id="generateBtn">✨ Generar 4 Variaciones de Estilo</button>
   </div>
- 
-  <div class="layout">
-    <!-- ================= PANEL DE CONTROL ================= -->
-    <div class="panel">
-      <h2>⚙️ Datos de la Actividad</h2>
- 
-      <div class="field">
-        <label>📋 Tipo de Actividad</label>
-        <select id="category">
-          <optgroup label="⛪ Actividades de la Iglesia">
-            <option value="Noche Misional">🌟 Noche Misional</option>
-            <option value="Actividad de Limpieza">🧹 Actividad de Limpieza</option>
-            <option value="Sociedad de Socorro">🌸 Sociedad de Socorro</option>
-            <option value="Primaria">🎈 Actividad de Primaria</option>
-            <option value="Actividad de Jóvenes">⚡ Actividad de Jóvenes (Corrillo)</option>
-            <option value="Obra Misional">📖 Obra Misional</option>
-            <option value="Noche de Hogar">🏠 Noche de Hogar</option>
-            <option value="Conferencia de Barrio">⛪ Conferencia de Barrio</option>
-            <option value="Conferencia de Estaca">🏛️ Conferencia de Estaca</option>
-          </optgroup>
-          <optgroup label="🎊 Otras Actividades">
-            <option value="Actividad Social">🎉 Actividad Social / Convivio</option>
-            <option value="Cumpleaños">🎂 Cumpleaños</option>
-            <option value="Baby Shower">🍼 Baby Shower</option>
-            <option value="Graduación">🎓 Graduación</option>
-            <option value="Aniversario">💍 Aniversario / Boda</option>
-            <option value="Reunión Familiar">👨‍👩‍👧‍👦 Reunión Familiar</option>
-            <option value="Despedida o Bienvenida">👋 Despedida / Bienvenida</option>
-            <option value="Evento Deportivo">⚽ Evento Deportivo</option>
-          </optgroup>
-          <optgroup label="✏️ Otro">
-            <option value="Personalizada">✏️ Personalizada</option>
-          </optgroup>
-        </select>
-      </div>
- 
-      <div class="field" id="customTitleField" style="display:none;">
-        <label>✏️ Nombre de la Actividad</label>
-        <input type="text" id="customTitle" placeholder="Ej: Actividad de Servicio">
-      </div>
- 
-      <div class="field">
-        <label>💬 Frase o Cita (opcional)</label>
-        <input type="text" id="quote" placeholder="Ej: un lema o mensaje corto">
-      </div>
- 
-      <div class="field">
-        <label>🗓️ Día y Hora</label>
-        <input type="text" id="datetime" placeholder="Ej: Sábado 12, 3:00 pm" value="Sábado 12, 3:00 pm">
-      </div>
- 
-      <div class="field">
-        <label>📍 Lugar / Capilla</label>
-        <input type="text" id="location" placeholder="Ej: Capilla Belaúnde" value="Capilla Belaúnde">
-      </div>
- 
-      <div class="field">
-        <label>➕ Información Adicional (opcional)</label>
-        <textarea id="extra" placeholder="Ej: Traer ropa de trabajo, se servirá refrigerio"></textarea>
-      </div>
- 
-      <div class="divider"></div>
- 
-      <div class="field">
-        <label>🔑 Clave gratuita de Pexels (recomendado)</label>
-        <input type="text" id="pexelsKey" placeholder="Pega aquí tu API Key de Pexels">
-        <p class="hint">Sin esta clave, las fotos serán genéricas. Es gratis en <a href="https://www.pexels.com/api/" target="_blank" rel="noopener">pexels.com/api</a>.</p>
-        <div id="apiStatus" style="font-size:11.5px;margin-top:4px;font-weight:600;"></div>
-      </div>
- 
-      <div class="divider"></div>
- 
-      <div class="field">
-        <label>🖼️ Foto de Fondo</label>
-        <div class="upload-row">
-          <label class="upload-btn" for="photoInput">Subir mi propia foto</label>
-          <input type="file" id="photoInput" accept="image/*" style="display:none;">
-          <button class="clear-btn" id="clearPhoto" style="display:none;">Quitar</button>
-          <img id="thumb" class="upload-thumb">
-        </div>
-      </div>
- 
-      <button class="generate-btn" id="generateBtn">✨ Generar 4 Diseños Variados</button>
+
+  <div class="panel-results">
+    <h2>🖼️ Variaciones de Diseño Generadas</h2>
+
+    <div id="resultsArea">
+      <p style="text-align: center; color: #64748b; padding: 40px; font-style: italic;">Completa los datos de la izquierda y haz clic en Generar para ver las alternativas de diseño.</p>
     </div>
- 
-    <!-- ================= SECCIÓN DE RESULTADOS ================= -->
-    <div class="results">
-      <div class="results-head">
-        <div>
-          <h2>Vista Previa de Opciones</h2>
-          <div class="sub">Elige tu favorito para descargarlo en alta resolución</div>
-        </div>
-        <button class="regen-btn" id="regenBtn" style="display:none;">🔁 Generar otras 4 opciones</button>
-      </div>
- 
-      <div id="resultsArea">
-        <div class="empty-state">
-          <div class="ico">🎨</div>
-          <h3>Aún no hay diseños generados</h3>
-          <p>Completa los datos de la actividad a la izquierda y presiona el botón para empezar.</p>
-        </div>
-      </div>
- 
-      <div id="selectedPanel" class="selected-panel" style="display:none;"></div>
+
+    <div class="bottom-actions">
+      <button class="btn-secondary" id="regenBtn">🌌 Probar con otras combinaciones</button>
+      <button class="btn-back-history" id="backBtn">⬅️ Recuperar fotos anteriores</button>
     </div>
+
+    <div class="selected-panel" id="edit-panel"></div>
   </div>
- 
-  <!-- Motores JavaScript externos -->
-  <script src="https://cdn.jsdelivr.net/npm/html2canvas-pro@1/dist/html2canvas-pro.min.js"></script>
-  <!-- Vinculación del archivo JS lógico -->
-  <script src="script.js"></script>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas-pro@1.5.12/dist/html2canvas-pro.min.js"></script>
+
+<script src="script.js"></script>
 </body>
 </html>
